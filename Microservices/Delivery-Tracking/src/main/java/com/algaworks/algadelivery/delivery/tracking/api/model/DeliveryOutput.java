@@ -1,6 +1,7 @@
 package com.algaworks.algadelivery.delivery.tracking.api.model;
 
 import com.algaworks.algadelivery.delivery.tracking.domain.model.DeliveryStatus;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@Builder
 public class DeliveryOutput {
     private UUID id;
     private UUID courierId;
