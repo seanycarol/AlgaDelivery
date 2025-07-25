@@ -9,8 +9,12 @@ import com.algaworks.algadelivery.delivery.tracking.domain.model.ContactPoint;
 import com.algaworks.algadelivery.delivery.tracking.domain.model.Delivery;
 import com.algaworks.algadelivery.delivery.tracking.domain.repository.DeliveryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -37,6 +41,16 @@ public class DeliveryPreparationService {
         delivery.removeItems();
         handlePreparation(input, delivery);
         return toDTO(deliveryRepository.saveAndFlush(delivery));
+    }
+
+    public Page<DeliveryOutput> findAll(Pageable pageable) {
+        Page<Delivery> result = deliveryRepository.findAll(pageable);
+        return result.map(this::toDTO);
+    }
+
+    public DeliveryOutput findById(UUID deliveryId) {
+        Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return toDTO(delivery);
     }
 
     private void handlePreparation(DeliveryInput input, Delivery delivery) {
