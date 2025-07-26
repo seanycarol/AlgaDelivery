@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -26,6 +27,9 @@ import java.util.stream.Collectors;
 public class DeliveryPreparationService {
 
     private final DeliveryRepository deliveryRepository;
+
+    private final DeliveryTimeEstimationService deliveryTimeEstimationService;
+    private final CourierPayoutCalculationService courierPayoutCalculationService;
 
     @Transactional
     public DeliveryOutput draft(DeliveryInput input) {
@@ -75,17 +79,17 @@ public class DeliveryPreparationService {
                 .phone(recipientInput.getNumber())
                 .build();
 
-        Duration expectedDeliveryTime = Duration.ofHours(3);
-        BigDecimal distanceFee = new BigDecimal("10");
+        DeliveryEstimate estimate = deliveryTimeEstimationService.estimate(sender, recipient);
+        BigDecimal calculatePayout = courierPayoutCalculationService.calculatePayout(estimate.getDistanceInKm());
 
-        BigDecimal payout = new BigDecimal("10");
+        BigDecimal distanceFee = calculateFee(estimate.getDistanceInKm());
 
         var preparationDetails = Delivery.PreparationDetails.builder()
                 .sender(sender)
                 .recipient(recipient)
                 .distanceFee(distanceFee)
-                .courierPayout(payout)
-                .expectedDeliveryTime(expectedDeliveryTime)
+                .courierPayout(calculatePayout)
+                .expectedDeliveryTime(estimate.getEstimatedTime())
                 .build();
 
         delivery.editPreparationDetails(preparationDetails);
@@ -93,6 +97,12 @@ public class DeliveryPreparationService {
         for(ItemInput itemInput : input.getItems()) {
             delivery.addItem(itemInput.getName(), itemInput.getQuantity());
         }
+    }
+
+    private BigDecimal calculateFee(Double distanceInKm) {
+        return new BigDecimal("3")
+                .multiply(new BigDecimal(distanceInKm))
+                .setScale(2, RoundingMode.HALF_EVEN);
     }
 
     private DeliveryOutput toDTO(Delivery delivery) {
