@@ -46,6 +46,7 @@ public class CourierRegistrationService {
 
     private CourierOutput toDTO(Courier courier) {
         return CourierOutput.builder()
+                .id(courier.getId())
                 .name(courier.getName())
                 .phone(courier.getPhone())
                 .fulfilledDeliveriesQuantity(courier.getFulfilledDeliveriesQuantity())

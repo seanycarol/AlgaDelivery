@@ -6,11 +6,13 @@ import lombok.Setter;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 @Builder
 public class CourierOutput {
+    private UUID id;
     private String name;
     private String phone;
     private Integer fulfilledDeliveriesQuantity;
