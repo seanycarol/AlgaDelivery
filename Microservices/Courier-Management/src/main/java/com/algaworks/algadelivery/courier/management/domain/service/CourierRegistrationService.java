@@ -51,7 +51,7 @@ public class CourierRegistrationService {
                 .phone(courier.getPhone())
                 .fulfilledDeliveriesQuantity(courier.getFulfilledDeliveriesQuantity())
                 .pendingDeliveriesQuantity(courier.getPendingDeliveriesQuantity())
-                .lastFulFilledDeliveryAt(courier.getLastFulFilledDeliveryAt())
+                .lastFulFilledDeliveryAt(courier.getLastFulfilledDeliveryAt())
                 .pendingDeliveries(courier.getPendingDeliveries().stream().map(d -> new AssignedDeliveryOutput(d.getId(), d.getAssignedAt())).toList())
                 .build();
     }

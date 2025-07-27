@@ -30,7 +30,7 @@ public class Courier {
 
     private Integer fulfilledDeliveriesQuantity;
     private Integer pendingDeliveriesQuantity;
-    private OffsetDateTime lastFulFilledDeliveryAt;
+    private OffsetDateTime lastFulfilledDeliveryAt;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "courier")
     private List<AssignedDelivery> pendingDeliveries = new ArrayList<>();
@@ -61,6 +61,6 @@ public class Courier {
         this.pendingDeliveries.remove(delivery);
         this.pendingDeliveriesQuantity--;
         this.fulfilledDeliveriesQuantity++;
-        this.setLastFulFilledDeliveryAt(OffsetDateTime.now());
+        this.setLastFulfilledDeliveryAt(OffsetDateTime.now());
     }
 }
