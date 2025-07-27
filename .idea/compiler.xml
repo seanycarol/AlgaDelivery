@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="service-registry" />
+        <module name="gateway" />
       </profile>
       <profile name="Annotation profile for Delivery-Tracking" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -17,6 +18,15 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
         </processorPath>
         <module name="Delivery-Tracking" />
+      </profile>
+      <profile name="Annotation profile for Courier-Management" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+        </processorPath>
         <module name="Courier-Management" />
       </profile>
     </annotationProcessing>
@@ -25,6 +35,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Courier-Management" options="-parameters" />
       <module name="Delivery-Tracking" options="-parameters" />
+      <module name="gateway" options="-parameters" />
       <module name="service-registry" options="-parameters" />
     </option>
   </component>
