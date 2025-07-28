@@ -46,6 +46,9 @@ public class DeliveryController {
     @SneakyThrows
     @GetMapping("/{deliveryId}")
     public DeliveryOutput findById(@PathVariable UUID deliveryId) {
+        if(Math.random() < 0.7) {
+            throw new RuntimeException();
+        }
         int millis = new Random().nextInt(400);
         Thread.sleep(millis);
         return deliveryPreparationService.findById(deliveryId);
