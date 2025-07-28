@@ -54,7 +54,7 @@ public class CourierController {
     @PostMapping("/payout-calculation")
     public CourierPayoutResultModel calculate(@RequestBody CourierPayoutCalculationInput input) {
         log.info("Calculating");
-        if(Math.random() < 0.1) {
+        if(Math.random() < 0.5) {
             throw new RuntimeException();
         }
         int millis = new Random().nextInt(400);
