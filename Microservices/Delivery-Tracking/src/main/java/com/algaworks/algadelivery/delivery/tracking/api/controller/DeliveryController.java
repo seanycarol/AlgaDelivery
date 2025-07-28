@@ -7,17 +7,21 @@ import com.algaworks.algadelivery.delivery.tracking.domain.service.DeliveryCheck
 import com.algaworks.algadelivery.delivery.tracking.domain.service.DeliveryPreparationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Random;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/deliveries")
 @RequiredArgsConstructor
+@Slf4j
 public class DeliveryController {
 
     private final DeliveryPreparationService deliveryPreparationService;
@@ -39,8 +43,11 @@ public class DeliveryController {
         return new PagedModel<>(deliveryPreparationService.findAll(pageable));
     }
 
+    @SneakyThrows
     @GetMapping("/{deliveryId}")
     public DeliveryOutput findById(@PathVariable UUID deliveryId) {
+        int millis = new Random().nextInt(400);
+        Thread.sleep(millis);
         return deliveryPreparationService.findById(deliveryId);
     }
 
